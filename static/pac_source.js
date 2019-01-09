@@ -1,5 +1,5 @@
 // Implements many of https://findproxyforurl.com/pac-functions/
-// Original implementation stolen from: https://app.thorsen.pm/proxyforurl by Jan Henning Thorsen
+// Original implementation obtained from: https://app.thorsen.pm/proxyforurl by Jan Henning Thorsen
 (function(window) {
   var pac = function() {};
   var proto = pac.prototype;
