@@ -2,7 +2,7 @@
 Simple web application to test and debug Proxy Auto-Config scripts.
 
 Tool written in python3 and requires Flask.
-Running the tool is as simple as 'python pactesttoo.py' and then using http://localhost:1234 in a browser.
+Running the tool is as simple as 'python pactesttool.py' and then using http://localhost:1234 in a browser.
 
 This is not quite packaged up very well for UWSGI deployment... I guess that will come.
 
