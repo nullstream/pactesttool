@@ -1,0 +1,84 @@
+<html>
+<head> 
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/code.js"></script>
+    <script src="/static/pac_source.js"></script>
+</head>
+<body>
+	<div class="container">
+		<h1>PAC Testing & Debugging Tool</h1>
+        
+		<div class="panel panel-primary">
+			<div class="panel-heading">PAC File</div>
+            <div class="panel-body">
+                <textarea style="font-family:monospace;" class="form-control" rows="10" id="pac-text">
+function FindProxyForURL(url, host) {
+    if (isInNet(dnsResolve(host), "192.168.0.0", "255.255.0.0")) {
+        return "DIRECT;";
+    }
+    return "PROXY proxyserver:3128;";
+}</textarea>
+                 
+            </div>
+		</div>
+		<div class="panel panel-default">
+            <!-- <div class="panel-heading">Test URL</div>-->
+			<div class="panel-body">
+                <div class="form-horizonal">
+                    <div class="input-group">
+                        <input style="font-family:monospace;" type="url" class="form-control" id="testURL" placeholder="http://google.ca">
+                        <div class="input-group-btn"><button type="submit" class="btn btn-primary" id="testURLButton">Test URL</button></div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		<div class="panel panel-primary">
+			<div class="panel-heading float-center" data-toggle="collapse" href="#options">Options</div>
+			<div id="options" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class="form-group row">
+						<label for="radioDNS" class="col-sm-3 col-form-label">DNS:</label>
+                        <div class="col-sm-9">
+                            <input class="form-check-input" type="radio" name="optDNS" checked><label>Internal Resolver</label>
+                            <input class="form-check-input" type="radio" name="optDNS"><label>External Resolver</label>
+						</div>
+				    </div>
+					<div class="form-group row">
+						<label for="searchDomain" class="col-sm-3 col-form-label">Default Search Domain:</label>
+                        <div class="col-sm-9"><input style="font-family:monospace;" type="text" class="form-control pull-right" id="searchDomain" placeholder="localdomain.local"></div>
+					</div>
+                    <div class="form-group row">
+						<label class="col-sm-3 col-form-label" for="clientIP">Client IP:</label>
+                        <div class="col-sm-9"><input style="font-family:monospace;" type="text" class="form-control pull-right" id="clientIP" placeholder="192.168.10.1"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    <script>
+		button = document.getElementById("testURLButton");
+		button.addEventListener('click',function(e) {
+			test_url = document.getElementById("testURL").value;
+			if(test_url != "") {	
+				code_set = document.getElementById("pac-text").value;
+				test_url = document.getElementById("testURL").value;
+				host = getLocation(test_url).hostname;
+				try {
+					result = new Pac().test(code_set, test_url, host)
+				}
+				catch(e) {
+					result= e
+				}
+			}
+			else {
+				result = "No test URL provided.";
+			}
+			console.log(result);
+		});
+	</script>
+</body>
+</html>
