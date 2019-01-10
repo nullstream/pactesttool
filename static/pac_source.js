@@ -52,14 +52,14 @@
 
   proto.dnsDomainLevels = function(host) {
     var m = host.match(/\./g);
-    result = m ? m.length - 1 : 0;
+    var result = m ? m.length - 1 : 0;
 	console.log("dnsDomainLevels("+host+"):"+result)
 	return result
   };
 
   proto.dnsResolve = function(host) {
     var xhr = new XMLHttpRequest();
-	result = false;
+	var result = false;
 	console.log("dnsResolve("+host+")");
 	console.log("\tRequesting DNS resolution of: ",host)
     xhr.open('GET', '/host/' + host, false);
@@ -72,12 +72,15 @@
 
   proto.isInNet = function(ip, net, mask) {
     var xhr = new XMLHttpRequest();
+    var result = false;
 	console.log("isInNet("+ip+","+net+","+mask+")")
 	console.log("\tResolving if "+ip+" is in "+net+"/"+mask+".")
     xhr.open('GET', "/in_subnet/"+ip+"/"+net+"/"+mask, false);
     xhr.send(null);
 	console.log("\tResult: "+xhr.responseText)
-  	return xhr.responseText
+	if(xhr.status == 200 && xhr.responseText == "True")
+		result = true;
+	return result;
   };
 
   proto.isResolvable = function(host) {
