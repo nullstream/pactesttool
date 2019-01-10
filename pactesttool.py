@@ -5,6 +5,7 @@ HTTP_400_BAD_REQUEST=400
 HTTP_200_OK=200
 
 app = Flask(__name__)
+application = app
 
 @app.route('/')
 def home():
@@ -37,5 +38,6 @@ def ip_in_subnet(ip,network,mask):
         result = "Cannot parse address: %s"%error
         response = HTTP_400_BAD_REQUEST
     return "%s"%result,response
- 
-app.run(port=1234,debug=True)
+
+if __name__ == "__main__": 
+	app.run(port=1234,debug=True)
