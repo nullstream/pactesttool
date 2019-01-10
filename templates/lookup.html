@@ -35,6 +35,8 @@ function FindProxyForURL(url, host) {
                     </div>
                 </div>
 			</div>
+			<div id="alert_placeholder"></div>	
+			<div id="alerts"></div>
 		</div>
 		<div class="panel panel-primary">
 			<div class="panel-heading float-center" data-toggle="collapse" href="#options">Options</div>
@@ -61,8 +63,13 @@ function FindProxyForURL(url, host) {
 	</div>
     <script>
 		button = document.getElementById("testURLButton");
+		input = document.getElementById("testURL");
+		input.addEventListener('keypress',function(e) {
+				if(e.which == 13)
+					button.click() 
+			});
 		button.addEventListener('click',function(e) {
-			test_url = document.getElementById("testURL").value;
+			test_url = input.value;
 			if(test_url != "") {	
 				code_set = document.getElementById("pac-text").value;
 				test_url = document.getElementById("testURL").value;
@@ -78,6 +85,12 @@ function FindProxyForURL(url, host) {
 				result = "No test URL provided.";
 			}
 			console.log(result);
+			message = '<strong>URL: </strong><code>'+test_url+'</code> <strong>Send To:</strong><code>'+result+"</code>";
+			alerttype = "alert-success";
+			if(result.includes("DIRECT")) {
+				alerttype ="alert-warning";
+			}
+			show_ui_alert(message,alerttype);
 		});
 	</script>
 </body>
